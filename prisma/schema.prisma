@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(16)
+  email        String    @unique
+  createdAt    DateTime  @default(now())
+  lastUpdate   DateTime  @default(now())
+  passwordHash String
+  image        String?
+  projects     Project[]
+  comments     Comment[]
+}
+
+model Project {
+  id                 Int       @id @default(autoincrement())
+  projectName        String    @db.VarChar(16)
+  projectDescription String    @db.VarChar(500)
+  projectCreatedAt   DateTime  @default(now())
+  projectLastUpdate  DateTime  @default(now())
+  user               User      @relation(fields: [userId], references: [id])
+  userId             Int
+  branches           Branch[]
+  comments           Comment[]
+}
+
+model Branch {
+  id                Int       @id @default(autoincrement())
+  branchName        String    @db.VarChar(16)
+  branchDescription String    @db.VarChar(500)
+  branchCreatedAt   DateTime  @default(now())
+  branchLastUpdate  DateTime  @default(now())
+  project           Project   @relation(fields: [projectId], references: [id])
+  projectId         Int
+  posts             Post[]
+  comments          Comment[]
+}
+
+model Post {
+  id              Int       @id @default(autoincrement())
+  postName        String    @db.VarChar(16)
+  postDescription String    @db.VarChar(500)
+  postCreatedAt   DateTime  @default(now())
+  postLastUpdate  DateTime  @default(now())
+  branch          Branch    @relation(fields: [branchId], references: [id])
+  branchId        Int
+  comments        Comment[]
+}
+
+model Comment {
+  id      Int    @id @default(autoincrement())
+  message String @db.VarChar(150)
+
+  commentableId String
+
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId Int?
+  Branch    Branch?  @relation(fields: [branchId], references: [id])
+  branchId  Int?
+  Post      Post?    @relation(fields: [postId], references: [id])
+  postId    Int?
+}

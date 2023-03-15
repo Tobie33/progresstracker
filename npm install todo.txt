@@ -1,0 +1,1 @@
+npm i @prisma/client@latest prisma@latest && npm install && npx prisma migrate dev
