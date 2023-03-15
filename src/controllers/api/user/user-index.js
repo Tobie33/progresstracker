@@ -4,7 +4,13 @@ import handleErrors from '../../_helpers/handle-errors.js'
 
 const controllersFindUsers = async (req, res) => {
   try {
-    const foundUsers = await prisma.user.findMany()
+    const foundUsers = await prisma.user.findMany({
+      include: {
+        projects: true,
+        comments: true
+      },
+      rejectOnNotFound: true
+    })
     const omittedPasswordUsers = foundUsers.map((user) => _.omit(user, ['passwordHash']))
     return res.status(200).json(omittedPasswordUsers)
   } catch (err) {
