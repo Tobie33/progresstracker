@@ -9,7 +9,7 @@ const editPostSchema = yup.object({
 
 const controllersEditPost = async (req, res) => {
   try {
-    const { body, params: { postid } } = req
+    const { body, params: { postId } } = req
     const verifiedData = await editPostSchema.validate(body, {
       abortEarly: false,
       stripUnknown: true
@@ -21,7 +21,7 @@ const controllersEditPost = async (req, res) => {
     }
 
     const editedPost = await prisma.post.update({
-      where: { id: Number(postid) },
+      where: { id: Number(postId) },
       data: dataToSave
     })
 

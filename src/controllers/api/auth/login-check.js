@@ -4,9 +4,15 @@ import handleErrors from '../../_helpers/handle-errors.js'
 
 const controllersLoginCheck = async (req, res) => {
   try {
-    const { session: { user: { id } } } = req
-
-    const foundUser = await prisma.user.findUnique({ where: { id: Number(id) }, rejectOnNotFound: true })
+    const { session: { userId } } = req
+    const foundUser = await prisma.user.findFirstOrThrow({
+      where: {
+        id: userId || 0
+      },
+      include: {
+        projects: true
+      }
+    })
     return res.status(200).json(_.omit(foundUser, ['passwordHash']))
   } catch (err) {
     return handleErrors(res, err)

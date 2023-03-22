@@ -6,7 +6,7 @@ const controllerProjectShow = async (req, res) => {
     const { params: { pid } } = req
     const foundProject = await prisma.project.findUnique({
       where: {
-        id: Number(pid)
+        id: Number(pid) || 0
       },
       include: {
         comments: true,
