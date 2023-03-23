@@ -5,12 +5,17 @@ import handleErrors from '../../_helpers/handle-errors.js'
 const controllersFindUser = async (req, res) => {
   try {
     const { params: { userId }, session: { userId: currentUserId } } = req
+    console.log(userId)
     const foundUser = await prisma.user.findFirst({
       where: {
         id: Number(userId) || 0
       },
       include: {
-        projects: true,
+        projects: {
+          include: {
+            branches: true
+          }
+        },
         comments: true
       },
       rejectOnNotFound: true

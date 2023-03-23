@@ -20,16 +20,16 @@ router.get('/api/users', (await import('./controllers/api/user/user-index.js')).
 // PROJECT
 router.post('/api/projects', authenticateUser, (await import('./controllers/api/project/project-create.js')).default)
 router.put('/api/projects/:pid', authenticateUser, (await import('./controllers/api/project/project-edit.js')).default)
-router.get('/api/projects/:pid', authenticateUser, (await import('./controllers/api/project/project-show.js')).default)
+router.get('/api/projects/:pid', (await import('./controllers/api/project/project-show.js')).default)
 
 // BRANCHES
 router.post('/api/projects/:pid/branches', authenticateUser, (await import('./controllers/api/branch/branch-create.js')).default)
 router.put('/api/projects/:pid/branches/:bid', authenticateUser, (await import('./controllers/api/branch/branch-edit.js')).default)
-router.get('/api/projects/:pid/branches/:bid', authenticateUser, (await import('./controllers/api/branch/branch-show.js')).default)
+router.get('/api/projects/:pid/branches/:bid', (await import('./controllers/api/branch/branch-show.js')).default)
 
 // POSTS
 router.post('/api/projects/:pid/branches/:bid/posts', authenticateUser, (await import('./controllers/api/post/post-create.js')).default)
 router.put('/api/projects/:pid/branches/:bid/posts/:postId', authenticateUser, (await import('./controllers/api/post/post-edit.js')).default)
-router.get('/api/projects/:pid/branches/:bid/posts/:postId', authenticateUser, (await import('./controllers/api/post/post-show.js')).default)
+router.get('/api/projects/:pid/branches/:bid/posts/:postId', (await import('./controllers/api/post/post-show.js')).default)
 
 export default router

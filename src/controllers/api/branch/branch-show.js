@@ -10,7 +10,8 @@ const controllerBranchShow = async (req, res) => {
       },
       include: {
         comments: true,
-        posts: true
+        posts: true,
+        project: true
       }
     })
     return res.status(200).json(foundBranch)

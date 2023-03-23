@@ -10,6 +10,7 @@ const createBranchSchema = yup.object({
 const controllersCreateBranch = async (req, res) => {
   try {
     const { body, params: { pid } } = req
+    console.log(body)
     const verifiedData = await createBranchSchema.validate(body, {
       abortEarly: false,
       stripUnknown: true

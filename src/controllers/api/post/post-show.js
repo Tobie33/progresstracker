@@ -3,10 +3,10 @@ import handleErrors from '../../_helpers/handle-errors.js'
 
 const controllerPostShow = async (req, res) => {
   try {
-    const { params: { bid } } = req
+    const { params: { postId } } = req
     const foundPost = await prisma.post.findUnique({
       where: {
-        id: Number(bid) || 0
+        id: Number(postId) || 0
       },
       include: {
         comments: true
